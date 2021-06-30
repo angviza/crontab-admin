@@ -24,21 +24,19 @@ if [ -z "$1" ]; then
     exit 1
 fi
 # var
-cron=$2
+cron=${@:2}
 tmp=$(mktemp)
 id
 
 sumid() {
     id=$(echo -n $cron | md5sum | awk '{printf "#%s#",$1}')
 }
-
 check_arg() {
     if [ -z "$cron" ]; then
         usage >&2
         exit 1
     fi
 }
-
 check_id() {
     sumid
     grep -w "$id" /var/spool/cron/*
@@ -47,11 +45,9 @@ check_id() {
         exit 1
     fi
 }
-
 save() {
     crontab "$tmp" && rm -f "$tmp"
 }
-
 #┌───────────────────────────────────────────────────┐
 #│                       CRD                         │
 #└───────────────────────────────────────────────────┘
@@ -72,15 +68,14 @@ remove() {
     crontab -l | sed -e "/${id}/d" >"$tmp"
     save
 }
-#============
 case "$1" in
-add)
+'add')
     add
     ;;
-l)
+'l')
     list
     ;;
-rm)
+'rm')
     remove
     ;;
 *)

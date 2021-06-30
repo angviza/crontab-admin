@@ -5,6 +5,7 @@ Linux crontab admin shell
 ## Usage
 ```sh
 cron='* * * * * /path/to/watch.sh /path/to/target' #your cron
+cron='* * * * *' '/path/to/watch.sh' '/path/to/target' #or your cron
 ```
 list crons
 ```sh
@@ -16,5 +17,5 @@ add cron
 ```
 remove cron
 ```sh
-./crontadm.sh rm $cron
+/path/to/crontadm.sh rm $cron
 ```
